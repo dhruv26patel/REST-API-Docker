@@ -22,4 +22,36 @@ sudo usermod -aG docker <username>
 su - <username>
 whoami
 ```
-6. 
+6. The files require to run the rest service successfull is in the app folder and we will be going though the Dockerfile which is the most imporntant file
+```
+FROM ubuntu:latest
+RUN apt-get update -y
+RUN apt-get install -y python-pip python-dev build-essential
+COPY . /app
+WORKDIR /app
+RUN pip install -r requirements.txt
+ENTRYPOINT ["python"]
+CMD ["hello.py"]
+```
+In this dockerfile we are choosing ubuntu as type of OS and installing python on it. We are copy the file to an app folder which is specificed as a working directory. Then we mention the entrypoint for the application and the command that we need to run which is the hello.py file. 
+
+7. To build the docker we use the following command: 
+```
+docker build -t flask-example:latest .
+```
+
+8. To run the docker we use the following command which exposes port 5000 from docker and also the host machine 
+```
+docker run -d -p 5000:5000 flask-example
+```
+
+9. You can run the command below to verify if the container is running on the right port 
+```
+docker ps -a 
+``` 
+
+10. You should now be able to use the instance Public IP IPv4 address and append the port and be able to see the welome page.
+```
+<Public IP IPv4>:5000
+```
+
